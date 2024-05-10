@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   match 'inside', to: 'application#inside', via: :post
-  match 'boundary', to 'application#boundary', via: :post
+  match 'boundary', to: 'application#boundary', via: :post
   #match 'circle', to 'application#circle', via: :post
 end
