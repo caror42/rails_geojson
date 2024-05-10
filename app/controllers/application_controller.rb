@@ -10,4 +10,8 @@ class ApplicationController < ActionController::API
 
         render json: data
     end
+    def boundary
+        #impliment logic to check if zip already exists
+        #impliment logic to make a new entry into the database
+    end
 end
