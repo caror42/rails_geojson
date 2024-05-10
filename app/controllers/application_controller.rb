@@ -13,5 +13,6 @@ class ApplicationController < ActionController::API
     def boundary
         #impliment logic to check if zip already exists
         #impliment logic to make a new entry into the database
+        Boundary.create
     end
 end
