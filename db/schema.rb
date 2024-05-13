@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_10_181222) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_13_195601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_10_181222) do
     t.float "maxx"
     t.float "miny"
     t.float "maxy"
-    t.string "coordinates"
+    t.json "coordinates"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

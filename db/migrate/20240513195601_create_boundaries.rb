@@ -5,7 +5,7 @@ class CreateBoundaries < ActiveRecord::Migration[7.1]
       t.float :maxx
       t.float :miny
       t.float :maxy
-      t.string :coordinates
+      t.json :coordinates
 
       t.timestamps
     end

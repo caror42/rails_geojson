@@ -5,11 +5,11 @@ one:
   maxx: 1.5
   miny: 1.5
   maxy: 1.5
-  coordinates: MyString
+  coordinates: 
 
 two:
   minx: 1.5
   maxx: 1.5
   miny: 1.5
   maxy: 1.5
-  coordinates: MyString
+  coordinates: 
