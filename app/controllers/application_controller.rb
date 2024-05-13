@@ -14,9 +14,9 @@ class ApplicationController < ActionController::API
     def boundary
         #impliment logic to check if zip already exists
         #impliment logic to make a new entry into the database
-        my_str2 = Boundary.make(request.body.read)
-        data = {message: my_str2}
-        render json: data
+        new_boundary = Boundary.make(request.body.read)
+        #data = {message: my_str2}
+        render json: new_boundary
         # Boundary.create(
         #     minx: 0.3,
         #     maxx: 1.3,
