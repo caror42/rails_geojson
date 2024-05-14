@@ -21,6 +21,10 @@ class ApplicationController < ActionController::API
         end
         render json: boundary
     end
+    def delete_boundary
+        boundary = Boundary.delete_by_name(params[:name])
+        render json: boundary
+    end
     def inside_by_name
         boundary = Boundary.find_by_name(params[:name])
         if boundary

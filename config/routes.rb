@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   match 'inside', to: 'application#inside', via: :post
   match 'boundary', to: 'application#boundary', via: :post
   match 'boundary/:name', to: 'application#get_boundary', via: :get
+  match 'boundary/:name', to: 'application#delete_boundary', via: :delete
   match 'inside/:name', to: 'application#inside_by_name', via: :post
   #match 'circle', to 'application#circle', via: :post
 end

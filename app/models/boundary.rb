@@ -32,9 +32,16 @@ class Boundary < ApplicationRecord
         if obj.key?('name')
             return obj['name']
         end
-        #return nil
     end
     def self.find_by_name(name)
         return Boundary.find_by(name: name)
+    end
+    def self.delete_by_name(name)
+        boundary = self.find_by_name(name)
+        if !boundary
+            return "no boundary by this name exists"
+        end
+        boundary.destroy
+        return boundary
     end
 end
