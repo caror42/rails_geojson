@@ -10,12 +10,79 @@ class BoundaryTest < ActiveSupport::TestCase
     assert boundary.coordinates == Boundary.json_to_polygon(geojson_named_small)
   end
   test "get boundary" do
+    boundary = Boundary.make(geojson_named_small_43)
+    get_boundary = Boundary.find_by_name(Boundary.get_name_from_json(geojson_named_small_43))
+    assert boundary == get_boundary
   end
   test "delete boundary" do
+    Boundary.delete_by_name(Boundary.get_name_from_json(geojson_named_small_43))
+    Boundary.delete_by_name(Boundary.get_name_from_json(geojson_named_small))
+    assert Boundary.find_by_name(Boundary.get_name_from_json(geojson_named_small_43)) == nil
+    assert Boundary.find_by_name(Boundary.get_name_from_json(geojson_named_small)) == nil
   end
   def geojson_named_small
     '{
       "name": "42",
+      "type":"Feature",
+      "geometry":{
+         "type":"Polygon",
+         "coordinates":[
+            [
+               [
+                  -79.264152,
+                  35.930242
+               ],
+               [
+                  -79.262608,
+                  35.928868
+               ],
+               [
+                  -79.258311,
+                  35.928566
+               ],
+               [
+                  -79.258255,
+                  35.928919
+               ],
+               [
+                  -79.261733,
+                  35.930094
+               ],
+               [
+                  -79.259807,
+                  35.931502
+               ],
+               [
+                  -79.259722,
+                  35.932627
+               ],
+               [
+                  -79.258612,
+                  35.933468
+               ],
+               [
+                  -79.25491,
+                  35.930737
+               ],
+               [
+                  -79.254482,
+                  35.931576
+               ]
+            ]
+         ]
+      },
+      "properties":{
+         "city":"Chapel hill",
+         "state":"NC",
+         "county":"Orange",
+         "country":"US",
+         "zipCode":"27516"
+      }
+    }'
+  end
+  def geojson_named_small_43
+    '{
+      "name": "43",
       "type":"Feature",
       "geometry":{
          "type":"Polygon",
