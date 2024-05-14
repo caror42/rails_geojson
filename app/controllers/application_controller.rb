@@ -10,26 +10,24 @@ class ApplicationController < ActionController::API
         render json: data
     end
     def boundary
-        #impliment logic to check if zip already exists
-        #impliment logic to make a new entry into the database
         new_boundary = Boundary.make(request.body.read)
-        #data = {message: my_str2}
         render json: new_boundary
-        # Boundary.create(
-        #     minx: 0.3,
-        #     maxx: 1.3,
-        #     miny: 0.31,
-        #     maxy: 1.31,
-        #     coordinates: "I am on Railsyeah!"
-        # )
     end
     def get_boundary
         boundary = Boundary.find_by_name(params[:name])
+        if !boundary
+            render json: "no boundary by this name"
+            return
+        end
         render json: boundary
     end
     def inside_by_name
         boundary = Boundary.find_by_name(params[:name])
-        is_inside = InsidePolygon.point_in_poly(request.body.read, boundary.coordinates)
-        render json: is_inside
+        if boundary
+            is_inside = InsidePolygon.point_in_poly(request.body.read, boundary.coordinates, boundary.minx, boundary.maxx, boundary.miny, boundary.maxy)
+            render json: is_inside
+            return
+        end
+        render json: "no boundary by this name"
     end
 end
