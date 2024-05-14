@@ -1,5 +1,7 @@
 # README
 
+Current project adresses part 1 (testing if a point is in a polygon), with ongoing testing implementation
+
 Model: Boundary
 Attributes:
     name: String,
@@ -12,7 +14,7 @@ Attributes:
 API Routes
 
 * POST 'inside', to: 'application#inside'
-    Primarily created for testing architecture stuff, not really relevant
+    Primarily created for figuring stuff out, not really relevant
 * POST 'boundary', to: 'application#boundary'
     Create a Boundary Model Instance!!
     QUESTION: Right now your json needs a "name" field to name the boundary instance,
@@ -25,8 +27,13 @@ API Routes
 * POST 'inside/:name', to: 'application#inside_by_name'
     Tests whether a point is in the Boundary of that name
     Request must include a json with a "point" field containing a 2 element array of floats
+    Ex: 
+        {
+            "point": [-79.0594942, 35.911696]
+        }
 
 Other General Questions
 
 * I use a json_to_polygon method in a couple places... would there be a good place to centralize this functionality?
 * General formatting stuff with what will be passed in requests/desired routes
+* Edgecases: like if the point is on the boundary
