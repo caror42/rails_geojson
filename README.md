@@ -18,7 +18,7 @@ API Routes
 * POST 'boundary', to: 'application#boundary'
     Create a Boundary Model Instance!!
     QUESTION: Right now your json needs a "name" field to name the boundary instance,
-    but could be modified to save a zipcode and be able to save a zipcode
+    but could be modified to save a zipcode and be able to search by zipcode
     -- what is the best field to search for boundaries by?
 * GET 'boundary/:name', to: 'application#get_boundary'
     Retrieves a Boundary instance from the database by name
