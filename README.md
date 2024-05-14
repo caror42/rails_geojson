@@ -2,14 +2,14 @@
 
 Current project adresses part 1 (testing if a point is in a polygon), with ongoing testing implementation
 
-Model: Boundary
-Attributes:
-    name: String,
-    minx: Float,
-    maxx: Float,
-    miny: Float,
-    maxy: maxy,
-    coordinates: JSON (specifficaly stores a 2d array of floats)
+Model: Boundary\
+Attributes:\
+    name: String,\
+    minx: Float,\
+    maxx: Float,\
+    miny: Float,\
+    maxy: maxy,\
+    coordinates: JSON (specifficaly stores a 2d array of floats)\
 
 API Routes
 
