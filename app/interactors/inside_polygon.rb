@@ -5,11 +5,17 @@ module InsidePolygon
     end
     #does a horizontal scan to determine if the point is inside, need to look into edge cases more
     def self.point_in_poly(point, geojson)
-        if point.class == JSON
+        if point.class == String
             point = JSON.parse(point)
             point = point['point']
+            #puts point.class
         end
-        polygon = self.json_to_polygon(geojson)
+        if geojson.class == String
+            polygon = self.json_to_polygon(geojson)
+        else
+            #convert array of strings to array of floats
+            polygon = geojson
+        end
         num_vertices = polygon.length
         x, y = point[0], point[1]
         inside = false

@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::API
-    require_relative '../interactors/inside_polygon'
-    require_relative '../models/boundary'
     def inside
         #my_str = InsidePolygon.testing_func
         # hash = JSON.parse request.body.read
@@ -31,7 +29,7 @@ class ApplicationController < ActionController::API
     end
     def inside_by_name
         boundary = Boundary.find_by_name(params[:name])
-        is_inside = InsidePolygon.point_in_poly(request.body.read, boundary)
+        is_inside = InsidePolygon.point_in_poly(request.body.read, boundary.coordinates)
         render json: is_inside
     end
 end
