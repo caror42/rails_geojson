@@ -25,4 +25,13 @@ class ApplicationController < ActionController::API
         #     coordinates: "I am on Railsyeah!"
         # )
     end
+    def get_boundary
+        boundary = Boundary.find_by_name(params[:name])
+        render json: boundary
+    end
+    def inside_by_name
+        boundary = Boundary.find_by_name(params[:name])
+        is_inside = InsidePolygon.point_in_poly(request.body.read, boundary)
+        render json: is_inside
+    end
 end

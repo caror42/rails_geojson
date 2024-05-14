@@ -9,5 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   match 'inside', to: 'application#inside', via: :post
   match 'boundary', to: 'application#boundary', via: :post
+  match 'boundary/:name', to: 'application#get_boundary', via: :get
+  match 'inside/:name', to: 'application#inside_by_name', via: :post
   #match 'circle', to 'application#circle', via: :post
 end

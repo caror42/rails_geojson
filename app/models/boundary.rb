@@ -31,4 +31,7 @@ class Boundary < ApplicationRecord
         end
         #return nil
     end
+    def self.find_by_name(name)
+        return Boundary.find_by(name: "41411")
+    end
 end
