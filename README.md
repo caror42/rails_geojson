@@ -4,12 +4,12 @@ Current project adresses part 1 (testing if a point is in a polygon), with ongoi
 
 Model: Boundary\
 Attributes:\
-&nbsp;    name: String,\
-&nbsp;    minx: Float,\
-&nbsp;    maxx: Float,\
-&nbsp;    miny: Float,\
-&nbsp;    maxy: maxy,\
-&nbsp;    coordinates: JSON (specifficaly stores a 2d array of floats)\
+&emsp;    name: String,\
+&emsp;    minx: Float,\
+&emsp;    maxx: Float,\
+&emsp;    miny: Float,\
+&emsp;    maxy: maxy,\
+&emsp;    coordinates: JSON (specifficaly stores a 2d array of floats)\
 
 API Routes
 
