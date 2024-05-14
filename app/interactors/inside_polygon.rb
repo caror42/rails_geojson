@@ -13,7 +13,6 @@ module InsidePolygon
         if geojson.class == String
             polygon = self.json_to_polygon(geojson)
         else
-            #convert array of strings to array of floats
             polygon = geojson
         end
         num_vertices = polygon.length
@@ -21,6 +20,7 @@ module InsidePolygon
         inside = false
     
         #check if point is entirely out of range and go no furthur....
+        #change to finding from db
         if x < polygon.map(&:first).min || x > polygon.map(&:first).max || y < polygon.map(&:last).min || y > polygon.map(&:last).max
             puts "completely out of bounds"
             return false

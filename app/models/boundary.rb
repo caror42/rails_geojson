@@ -1,9 +1,12 @@
 class Boundary < ApplicationRecord
     def self.make(geojson)
         #make polygon from json
+        name = self.get_name_from_json(geojson)
+        if self.find_by_name(name)
+            return "boundary by this name already exists"
+        end
         polygon = self.json_to_polygon(geojson)
         #find max x and min x
-        name = self.get_name_from_json(geojson)
         minx = polygon.map(&:first).min
         maxx = polygon.map(&:first).max
         miny = polygon.map(&:last).min
@@ -32,6 +35,6 @@ class Boundary < ApplicationRecord
         #return nil
     end
     def self.find_by_name(name)
-        return Boundary.find_by(name: "41411")
+        return Boundary.find_by(name: name)
     end
 end
