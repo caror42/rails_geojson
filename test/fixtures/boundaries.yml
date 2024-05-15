@@ -1,4 +1,17 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: boundaries
+#
+#  id          :bigint           not null, primary key
+#  minx        :float
+#  maxx        :float
+#  miny        :float
+#  maxy        :float
+#  coordinates :json
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  name        :string
+#
 
 one:
   minx: 1.5

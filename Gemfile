@@ -45,3 +45,7 @@ group :development do
   # gem "spring"
 end
 
+group :development do
+  gem 'annotate'
+end
+

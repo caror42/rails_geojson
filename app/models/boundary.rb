@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: boundaries
+#
+#  id          :bigint           not null, primary key
+#  minx        :float
+#  maxx        :float
+#  miny        :float
+#  maxy        :float
+#  coordinates :json
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  name        :string
+#
 class Boundary < ApplicationRecord
     def self.make(geojson)
         #make polygon from json
