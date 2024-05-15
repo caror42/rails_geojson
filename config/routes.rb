@@ -7,10 +7,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  match 'inside', to: 'application#inside', via: :post
-  match 'boundary', to: 'application#boundary', via: :post
-  match 'boundary/:name', to: 'application#get_boundary', via: :get
-  match 'boundary/:name', to: 'application#delete_boundary', via: :delete
-  match 'inside/:name', to: 'application#inside_by_name', via: :post
+  match 'inside', to: 'boundaries#inside', via: :post
+  match 'boundary', to: 'boundaries#boundary', via: :post
+  match 'boundary/:name', to: 'boundaries#get_boundary', via: :get
+  match 'boundary/:name', to: 'boundaries#delete_boundary', via: :delete
+  match 'inside/:name', to: 'boundaries#inside_by_name', via: :post
   #match 'circle', to 'application#circle', via: :post
 end
