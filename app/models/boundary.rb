@@ -41,10 +41,15 @@ class Boundary < ApplicationRecord
         poly_unwrapped = poly_wrapped['coordinates']
         return poly_unwrapped[0]
     end
+    #get name, or get zipcode if no name is provided
     def self.get_name_from_json(geojson)
         obj = JSON.parse(geojson)
         if obj.key?('name')
             return obj['name']
+        elsif obj.key?('properties')
+            if obj['properties'].key?('zipCode')
+                return obj['properties']['zipCode']
+            end
         end
     end
     def self.find_by_name(name)

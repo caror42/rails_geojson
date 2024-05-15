@@ -32,26 +32,22 @@ module InsidePolygon
 
         #check if point is entirely out of range and go no furthur....
         if params.key?("minx")
-            minx = params["minx"]
-            if x < minx
+            if x < params["minx"]
                 return false
             end
         end
         if params.key?("maxx")
-            maxx = params["maxx"]
-            if x > maxx
+            if x > params["maxx"]
                 return false
             end
         end
         if params.key?("miny")
-            miny = params["miny"]
-            if y < miny
+            if y < params["miny"]
                 return false
             end
         end
         if params.key?("maxy")
-            maxy = params["maxy"]
-            if y > maxy
+            if y > params["maxy"]
                 return false
             end
         end
