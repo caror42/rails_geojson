@@ -3,11 +3,24 @@ module InsidePolygon
         return "hi"
     end
     #does a horizontal scan to determine if the point is inside, need to look into edge cases more
-    def self.point_in_poly(point, geojson, minx = nil, maxx = nil, miny = nil, maxy = nil)
+    def self.point_in_poly params={}
+
+        #validate existence of neccesary params and assign
+        if params.key?("point")
+            point = params["point"]
+        else
+            raise "Point param needed to test if a point is in a polygon"
+        end
+        if params.key?("geojson")
+            geojson = params["geojson"]
+        else
+            raise "Geojson param needed to test if a point is in a polygon"
+        end
+
+        #process params
         if point.class == String
             point = JSON.parse(point)
             point = point['point']
-            #puts point.class
         end
         if geojson.class == String
             polygon = self.json_to_polygon(geojson)
@@ -16,21 +29,35 @@ module InsidePolygon
         end
         num_vertices = polygon.length
         x, y = point[0], point[1]
-        inside = false
-    
+
         #check if point is entirely out of range and go no furthur....
-        #change to finding from db
-        if minx == nil || maxx == nil || miny == nil || maxy == nil
-            if x < polygon.map(&:first).min || x > polygon.map(&:first).max || y < polygon.map(&:last).min || y > polygon.map(&:last).max
-                puts "completely out of bounds"
+        if params.key?("minx")
+            minx = params["minx"]
+            if x < minx
                 return false
             end
-        else
-            if x < minx || x > maxx || y < miny || y > maxy
+        end
+        if params.key?("maxx")
+            maxx = params["maxx"]
+            if x > maxx
+                return false
+            end
+        end
+        if params.key?("miny")
+            miny = params["miny"]
+            if y < miny
+                return false
+            end
+        end
+        if params.key?("maxy")
+            maxy = params["maxy"]
+            if y > maxy
                 return false
             end
         end
 
+        inside = false
+    
         p1 = polygon[0]
         
         (1..num_vertices).each do |i|

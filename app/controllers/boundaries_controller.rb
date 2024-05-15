@@ -1,6 +1,10 @@
 class BoundariesController < ApplicationController
     def inside
-        is_inside = InsidePolygon.point_in_poly([19.891395329260575, 0.2818513459221208], request.body.read)
+        params = {
+            "point" => [19.891395329260575, 0.2818513459221208],
+            "geojson" => request.body.read
+        }
+        is_inside = InsidePolygon.point_in_poly(params)
         render json: is_inside
     end
     def boundary
@@ -21,8 +25,16 @@ class BoundariesController < ApplicationController
     end
     def inside_by_name
         boundary = Boundary.find_by_name(params[:name])
+        params = {
+            "point" => request.body.read,
+            "geojson" => boundary.coordinates,
+            "minx" => boundary.minx,
+            "maxx" => boundary.maxx,
+            "miny" => boundary.miny,
+            "maxy" => boundary.maxy
+        }
         if boundary
-            is_inside = InsidePolygon.point_in_poly(request.body.read, boundary.coordinates, boundary.minx, boundary.maxx, boundary.miny, boundary.maxy)
+            is_inside = InsidePolygon.point_in_poly(params)
             render json: is_inside
             return
         end
