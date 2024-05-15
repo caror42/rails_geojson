@@ -1,4 +1,3 @@
-require 'json'
 module InsidePolygon
     def self.testing_func
         return "hi"
