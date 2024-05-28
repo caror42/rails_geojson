@@ -60,4 +60,28 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     is_inside = response_json['is_inside']
     assert_equal is_inside, false
   end
+  test "point is on horizontal boundary" do
+    small_rectangle_origin = boundaries(:small_rectangle_origin)
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [2, 10]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, false
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [2, 0]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, false
+  end
+  # test "point is on vertical boundary" do
+  #   small_rectangle_origin = boundaries(:small_rectangle_origin)
+  #   post "/inside/#{small_rectangle_origin.name}", params: {point: [-1,-1]}, as: :json
+  #   assert_response :success
+  #   response_json = JSON.parse(response.body)
+  #   assert response_json.key?('is_inside')
+  #   is_inside = response_json['is_inside']
+  #   assert_equal is_inside, false
+  # end
 end
