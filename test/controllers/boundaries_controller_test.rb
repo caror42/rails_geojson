@@ -23,13 +23,11 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     assert_response :conflict
   end
   test "get boundary by name" do
+    boundary_json = file_fixture("27516.json").read
+    bparam = JSON.parse(boundary_json)
+    post boundary_url, params: bparam, as: :json
     get "/boundary/27516"
     assert_response :success
-    # @real_name = "27516"
-    # @namey = boundaries(:small_rectangle_origin).name
-    # boundary_json = file_fixture("27516.json").read
-    # bparam = JSON.parse(boundary_json)
-    # post boundary_url, params: bparam, as: :json
     # get boundary_url(name: "27516")
     # assert_response :success
   end
