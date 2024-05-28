@@ -16,6 +16,7 @@ class BoundariesController < ApplicationController
         render json: {boundary: new_boundary}, status: :ok
     end
     def get_boundary
+        puts(params[:name])
         boundary = Boundary.find_by_name(params[:name])
         if !boundary
             render json: {error:"no boundary by this name"}, status: :not_found
