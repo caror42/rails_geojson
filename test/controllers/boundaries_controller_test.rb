@@ -28,14 +28,36 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     post boundary_url, params: bparam, as: :json
     get "/boundary/27516"
     assert_response :success
-    # get boundary_url(name: "27516")
-    # assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('boundary')
+    boundary = response_json['boundary']
+    assert_equal boundary['name'], "27516"
+    assert_equal boundary['minx'], -79.264575
+    assert_equal boundary['maxx'], -79.053125
+    assert_equal boundary['miny'], 35.811339
+    assert_equal boundary['maxy'], 36.017264
   end
   test "get boundary by non-existent name" do
-    unreal_name = "this is not a name"
-    get "/boundary/unreal_name"
+    unreal_name = "this_is_not_a_name"
+    get "/boundary/#{unreal_name}"
     assert_response :not_found
-    # get boundary_url(unreal_name)
-    # assert_response :conflict
+  end
+  test "point is inside polygon" do
+    small_rectangle_origin = boundaries(:small_rectangle_origin)
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [1,1]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, true
+  end
+  test "point is outside polygon" do
+    small_rectangle_origin = boundaries(:small_rectangle_origin)
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [-1,-1]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, false
   end
 end

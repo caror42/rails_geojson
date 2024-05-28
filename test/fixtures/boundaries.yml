@@ -14,7 +14,7 @@
 #
 
 small_rectangle_origin:
-  name: "small rectangle origin"
+  name: "small_rectangle_origin"
   minx: 0.0
   maxx: 5.0
   miny: 0.0
