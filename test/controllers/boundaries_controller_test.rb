@@ -51,9 +51,54 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     is_inside = response_json['is_inside']
     assert_equal is_inside, true
   end
-  test "point is outside polygon" do
+  test "point is inside polygon negative" do
+    small_rectangle_negative = boundaries(:small_rectangle_negative)
+    post "/inside/#{small_rectangle_negative.name}", params: {point: [-1,-1]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, true
+  end
+  test "point is outside polygon left" do
     small_rectangle_origin = boundaries(:small_rectangle_origin)
-    post "/inside/#{small_rectangle_origin.name}", params: {point: [-1,-1]}, as: :json
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [10,5]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, false
+  end
+  test "point is outside polygon right" do
+    small_rectangle_origin = boundaries(:small_rectangle_origin)
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [-2,5]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, false
+  end
+  test "point is outside polygon up" do
+    small_rectangle_origin = boundaries(:small_rectangle_origin)
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [2,20]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, false
+  end
+  test "point is outside polygon down" do
+    small_rectangle_origin = boundaries(:small_rectangle_origin)
+    post "/inside/#{small_rectangle_origin.name}", params: {point: [2,-5]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, false
+  end
+  test "point is outside polygon negative" do
+    small_rectangle_negative = boundaries(:small_rectangle_negative)
+    post "/inside/#{small_rectangle_negative.name}", params: {point: [-10,0]}, as: :json
     assert_response :success
     response_json = JSON.parse(response.body)
     assert response_json.key?('is_inside')

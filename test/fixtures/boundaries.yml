@@ -30,7 +30,7 @@ small_rectangle_origin_float:
   coordinates: [[0.0, 0.0], [5.5, 0.0], [5.5, 10.5], [0.0, 10.5]]
 
 small_rectangle_negative:
-  name: "small rectangle negative"
+  name: "small_rectangle_negative"
   minx: -2.0
   maxx: 2.0
   miny: -3.0
