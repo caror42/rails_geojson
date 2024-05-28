@@ -9,15 +9,19 @@ class BoundariesController < ApplicationController
     end
     def boundary
         new_boundary = Boundary.make(request.body.read)
-        render json: new_boundary
+        if new_boundary == "boundary by this name already exists"
+            render json: {error: "boundary by this name already exists"}, status: :conflict
+            return
+        end
+        render json: {boundary: new_boundary}, status: :ok
     end
     def get_boundary
         boundary = Boundary.find_by_name(params[:name])
         if !boundary
-            render json: "no boundary by this name"
+            render json: {error:"no boundary by this name"}, status: :not_found
             return
         end
-        render json: boundary
+        render json: {boundary: boundary}, status: :ok
     end
     def delete_boundary
         boundary = Boundary.delete_by_name(params[:name])
