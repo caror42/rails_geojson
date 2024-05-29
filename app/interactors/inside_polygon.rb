@@ -1,6 +1,18 @@
 module InsidePolygon
-    def self.testing_func
-        return "hi"
+    def self.point_in_poly_processing(point, name)
+        boundary = FindBoundaryByNameOrId.find_by_name(name)
+        if !boundary
+            return "no boundary by this name"
+        end
+        params = {
+            "point" => point,
+            "geojson" => boundary.coordinates,
+            "minx" => boundary.minx,
+            "maxx" => boundary.maxx,
+            "miny" => boundary.miny,
+            "maxy" => boundary.maxy
+        }
+        return self.point_in_poly(params)
     end
     #does a horizontal scan to determine if the point is inside, need to look into edge cases more
     def self.point_in_poly params={}

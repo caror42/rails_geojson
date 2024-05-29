@@ -28,20 +28,11 @@ class BoundariesController < ApplicationController
         render json: boundary
     end
     def inside_by_name
-        boundary = Boundary.find_by_name(params[:name])
-        params = {
-            "point" => request.body.read,
-            "geojson" => boundary.coordinates,
-            "minx" => boundary.minx,
-            "maxx" => boundary.maxx,
-            "miny" => boundary.miny,
-            "maxy" => boundary.maxy
-        }
-        if boundary
-            is_inside = InsidePolygon.point_in_poly(params)
-            render json: {is_inside: is_inside}, status: :ok
+        is_inside = InsidePolygon.point_in_poly_processing(request.body.read, params[:name])
+        if is_inside == "no boundary by this name"
+            render json: "no boundary by this name", status: :not_found
             return
         end
-        render json: "no boundary by this name"
+        render json: {is_inside: is_inside}, status: :ok
     end
 end
