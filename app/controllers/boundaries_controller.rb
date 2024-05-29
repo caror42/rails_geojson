@@ -8,9 +8,14 @@ class BoundariesController < ApplicationController
         render json: is_inside
     end
     def boundary
-        new_boundary = Boundary.make(request.body.read)
+        begin
+            new_boundary = Boundary.make(request.body.read)
+        rescue Exception
+            render json: {error: "an error occured"}, status: :internal_server_error
+            return
+        end
         if new_boundary == "boundary by this name already exists"
-            render json: {error: "boundary by this name already exists"}, status: :conflict
+            render json: {error: new_boundary}, status: :conflict
             return
         end
         render json: {boundary: new_boundary}, status: :ok
@@ -18,14 +23,18 @@ class BoundariesController < ApplicationController
     def get_boundary
         boundary = Boundary.find_by_name(params[:name])
         if !boundary
-            render json: {error:"no boundary by this name"}, status: :not_found
+            render json: {error: "no boundary by this name"}, status: :not_found
             return
         end
         render json: {boundary: boundary}, status: :ok
     end
     def delete_boundary
-        boundary = Boundary.delete_by_name(params[:name])
-        render json: boundary
+        deleted_boundary = Boundary.delete_by_name(params[:name])
+        if deleted_boundary == "no boundary by this name exists"
+            render json: {error: deleted_boundary}, status: :not_found
+            return
+        end
+        render json: {boundary: deleted_boundary}, status: :ok
     end
     def inside_by_name
         boundary = Boundary.find_by_name(params[:name])
