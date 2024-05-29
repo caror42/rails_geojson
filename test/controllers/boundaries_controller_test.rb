@@ -41,6 +41,34 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     unreal_name = "this_is_not_a_name"
     get "/boundary/#{unreal_name}"
     assert_response :not_found
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('error')
+    error = response_json['error']
+    assert_equal error, "no boundary by this name"
+  end
+  test "delete boundary by name" do
+    boundary_json = file_fixture("27516.json").read
+    bparam = JSON.parse(boundary_json)
+    post boundary_url, params: bparam, as: :json
+    delete "/boundary/27516"
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('boundary')
+    boundary = response_json['boundary']
+    assert_equal boundary['name'], "27516"
+    assert_equal boundary['minx'], -79.264575
+    assert_equal boundary['maxx'], -79.053125
+    assert_equal boundary['miny'], 35.811339
+    assert_equal boundary['maxy'], 36.017264
+  end
+  test "delete nonexistent boundary" do
+    unreal_name = "this_is_not_a_name"
+    delete "/boundary/#{unreal_name}"
+    assert_response :not_found
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('error')
+    error = response_json['error']
+    assert_equal error, "no boundary by this name exists"
   end
   test "point is inside polygon" do
     small_rectangle_origin = boundaries(:small_rectangle_origin)
