@@ -8,7 +8,12 @@ class BoundariesController < ApplicationController
         render json: is_inside
     end
     def boundary
-        new_boundary = Boundary.make(request.body.read)
+        begin
+            new_boundary = Boundary.make(request.body.read)
+        rescue Exception
+            render json: {error: "an error occured"}, status: :internal_server_error
+            return
+        end
         if new_boundary == "boundary by this name already exists"
             render json: {error: new_boundary}, status: :conflict
             return

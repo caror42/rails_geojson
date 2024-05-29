@@ -21,6 +21,21 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     post boundary_url, params: bparam, as: :json
     post boundary_url, params: bparam, as: :json
     assert_response :conflict
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('error')
+    error = response_json['error']
+    assert_equal error, "boundary by this name already exists"
+  end
+  test "create invalid boundary (improper format, no name)" do
+    boundary_json = file_fixture("27516.json").read
+    bparam = JSON.parse(boundary_json)
+    improper_param = bparam['geometry']
+    post boundary_url, params: improper_param, as: :json
+    assert_response :internal_server_error
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('error')
+    error = response_json['error']
+    assert_equal error, "an error occured"
   end
   test "get boundary by name" do
     boundary_json = file_fixture("27516.json").read
