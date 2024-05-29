@@ -94,6 +94,18 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     is_inside = response_json['is_inside']
     assert_equal is_inside, true
   end
+  test "point is inside zipcode peninsula" do
+    boundary_json = file_fixture("27516.json").read
+    bparam = JSON.parse(boundary_json)
+    post boundary_url, params: bparam, as: :json
+    #chosen because the horizontal scan leaves and reenters the polygon
+    post "/inside/27516", params: {point: [-79.135343,35.852815]}, as: :json
+    assert_response :success
+    response_json = JSON.parse(response.body)
+    assert response_json.key?('is_inside')
+    is_inside = response_json['is_inside']
+    assert_equal is_inside, true
+  end
   test "point is inside polygon negative" do
     small_rectangle_negative = boundaries(:small_rectangle_negative)
     post "/inside/#{small_rectangle_negative.name}", params: {point: [-1,-1]}, as: :json
