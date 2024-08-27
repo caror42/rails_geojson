@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: boundaries
+#
+#  id          :bigint           not null, primary key
+#  minx        :float
+#  maxx        :float
+#  miny        :float
+#  maxy        :float
+#  coordinates :jsonb
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one:
+  minx: 1.5
+  maxx: 1.5
+  miny: 1.5
+  maxy: 1.5
+  coordinates: 
+
+two:
+  minx: 1.5
+  maxx: 1.5
+  miny: 1.5
+  maxy: 1.5
+  coordinates: 
