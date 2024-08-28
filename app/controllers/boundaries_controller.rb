@@ -15,13 +15,7 @@ class BoundariesController < ApplicationController
 
   # POST /boundaries
   def create
-    @boundary = Boundary.new(
-      minx: boundary_params["minx"],
-      maxx: boundary_params["maxx"],
-      miny: boundary_params["miny"],
-      maxy: boundary_params["maxy"],
-      coordinates: boundary_params["coordinates"]
-    )
+    @boundary = Boundary.new(boundary_params)
     if @boundary.save
       render json: @boundary, status: :created, location: @boundary
     else
@@ -51,7 +45,9 @@ class BoundariesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def boundary_params
-      params.fetch(:boundary)
-      #safe_params = params.permit(:minx, :maxx, :miny, :maxy, :coordinates)
+      #can't find a way to strong param coordinates, as it is a 2d array
+      params.require(:boundary).permit(:minx, :maxx, :miny, :maxy).tap do |whitelisted|
+        whitelisted[:coordinates] = params[:boundary][:coordinates]
+      end
     end
 end
