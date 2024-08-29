@@ -15,12 +15,23 @@ class BoundariesController < ApplicationController
 
   # POST /boundaries
   def create
-    @boundary = Boundary.new(boundary_params)
-    if @boundary.save
-      render json: @boundary, status: :created, location: @boundary
+    validated = Geojsonlint.validate(geojson_param).valid?
+    if validated.valid?
+      @boundary = Boundary.new(geojson_params)
+      if @boundary.save
+        render json: @boundary, status: :created, location: @boundary
+      else
+        render json: @boundary.errors, status: :unprocessable_entity
+      end
     else
-      render json: @boundary.errors, status: :unprocessable_entity
+      render json: validated.errors, status: :unprocessable_entity
     end
+    # @boundary = Boundary.new(boundary_params)
+    # if @boundary.save
+    #   render json: @boundary, status: :created, location: @boundary
+    # else
+    #   render json: @boundary.errors, status: :unprocessable_entity
+    # end
   end
 
   # PATCH/PUT /boundaries/1
@@ -44,10 +55,13 @@ class BoundariesController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def boundary_params
+    def geojson_param
       #can't find a way to strong param coordinates, as it is a 2d array
-      params.require(:boundary).permit(:minx, :maxx, :miny, :maxy).tap do |whitelisted|
-        whitelisted[:coordinates] = params[:boundary][:coordinates]
-      end
+      params.permit!
+      formatted_params = {
+        "type": params[:type],
+        "geometry": params[:geometry].to_h,
+        "properties": params[:properties].to_h
+      }
     end
 end
