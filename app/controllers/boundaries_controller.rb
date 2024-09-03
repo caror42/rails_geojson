@@ -41,12 +41,25 @@ class BoundariesController < ApplicationController
     @boundary.destroy!
   end
 
+  def inside
+    #TODO: encase in try catch and pass errors through if desired
+    is_inside = InsidePolygon.point_in_poly(inside_param)
+    render json: {is_inside: is_inside}, status: :ok
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_boundary
       @boundary = Boundary.find(params[:id])
     end
-
+    def inside_param
+      #why is there boundary?
+      params.require(:boundary).permit(:id, point: [])
+      formatted_params = {
+        "point": params[:point],
+        "id": params[:id]
+      }
+    end
     # Only allow a list of trusted parameters through.
     def geojson_param
       params.permit!
