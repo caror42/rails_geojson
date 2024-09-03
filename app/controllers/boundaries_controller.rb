@@ -16,8 +16,8 @@ class BoundariesController < ApplicationController
 
   # POST /boundaries
   def create
-    if is_geojson_valid(geojson_param)
-      @boundary = Boundary.make(geojson_param)
+    if is_geojson_valid(geojson_params)
+      @boundary = Boundary.make(geojson_params)
       if @boundary.save
         render json: @boundary, status: :created, location: @boundary
       else
@@ -44,7 +44,7 @@ class BoundariesController < ApplicationController
 
   def inside
     #TODO: encase in try catch and pass errors through if desired
-    is_inside = InsidePolygon.point_in_poly(inside_param)
+    is_inside = InsidePolygon.point_in_poly(inside_params)
     render json: {is_inside: is_inside}, status: :ok
   end
 
@@ -52,11 +52,11 @@ class BoundariesController < ApplicationController
     def set_boundary
       @boundary = Boundary.find(params[:id])
     end
-    def inside_param
+    def inside_params
       params.permit(:id, point: []).except(:controller, :action)
     end
     # Only allow a list of trusted parameters through.
-    def geojson_param
+    def geojson_params
       params.permit!.except(:controller, :action).to_h
     end
     def is_geojson_valid(geojson)
