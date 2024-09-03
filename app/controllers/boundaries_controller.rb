@@ -15,16 +15,17 @@ class BoundariesController < ApplicationController
 
   # POST /boundaries
   def create
-    validated = Geojsonlint.validate(geojson_param).valid?
-    if validated.valid?
-      @boundary = Boundary.new(geojson_params)
+    puts(is_geojson_valid(geojson_param))
+    if is_geojson_valid(geojson_param)
+      @boundary = Boundary.make(geojson_param)
       if @boundary.save
         render json: @boundary, status: :created, location: @boundary
       else
         render json: @boundary.errors, status: :unprocessable_entity
       end
     else
-      render json: validated.errors, status: :unprocessable_entity
+      #TODO: add informative message?
+      render json: {message: "invalid params"}, status: :unprocessable_entity
     end
     # @boundary = Boundary.new(boundary_params)
     # if @boundary.save
@@ -58,10 +59,17 @@ class BoundariesController < ApplicationController
     def geojson_param
       #can't find a way to strong param coordinates, as it is a 2d array
       params.permit!
+      #TODO: could I do this instead? no cuz there's a param that's "boundary=>{}"
+      #puts(params.to_h)
       formatted_params = {
         "type": params[:type],
         "geometry": params[:geometry].to_h,
         "properties": params[:properties].to_h
       }
+      # return formatted_params
+    end
+    def is_geojson_valid(geojson)
+      #validate geojson format and confirm that the type of object is a polygon (ie not a point)
+      Geojsonlint.validate(geojson).valid? and geojson[:geometry][:type] == "Polygon"
     end
 end
