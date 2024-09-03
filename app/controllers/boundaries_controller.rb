@@ -30,7 +30,8 @@ class BoundariesController < ApplicationController
 
   # PATCH/PUT /boundaries/1
   def update
-    if @boundary.update(boundary_params)
+    #works because of implementation -- but maybe should modify to be more specific
+    if @boundary.update(geojson_params)
       render json: @boundary
     else
       render json: @boundary.errors, status: :unprocessable_entity
