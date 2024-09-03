@@ -15,7 +15,6 @@ class BoundariesController < ApplicationController
 
   # POST /boundaries
   def create
-    puts(is_geojson_valid(geojson_param))
     if is_geojson_valid(geojson_param)
       @boundary = Boundary.make(geojson_param)
       if @boundary.save
@@ -24,15 +23,8 @@ class BoundariesController < ApplicationController
         render json: @boundary.errors, status: :unprocessable_entity
       end
     else
-      #TODO: add informative message?
       render json: {message: "invalid params"}, status: :unprocessable_entity
     end
-    # @boundary = Boundary.new(boundary_params)
-    # if @boundary.save
-    #   render json: @boundary, status: :created, location: @boundary
-    # else
-    #   render json: @boundary.errors, status: :unprocessable_entity
-    # end
   end
 
   # PATCH/PUT /boundaries/1
@@ -57,7 +49,6 @@ class BoundariesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def geojson_param
-      #can't find a way to strong param coordinates, as it is a 2d array
       params.permit!
       #TODO: could I do this instead? no cuz there's a param that's "boundary=>{}"
       #puts(params.to_h)
