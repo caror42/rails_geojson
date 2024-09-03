@@ -1,4 +1,5 @@
 class BoundariesController < ApplicationController
+  wrap_parameters false
   before_action :set_boundary, only: %i[ show update destroy ]
 
   # GET /boundaries
@@ -48,29 +49,15 @@ class BoundariesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_boundary
       @boundary = Boundary.find(params[:id])
     end
     def inside_param
-      #why is there boundary?
-      params.require(:boundary).permit(:id, point: [])
-      formatted_params = {
-        "point": params[:point],
-        "id": params[:id]
-      }
+      params.permit(:id, point: []).except(:controller, :action)
     end
     # Only allow a list of trusted parameters through.
     def geojson_param
-      params.permit!
-      #TODO: could I do this instead? no cuz there's a param that's "boundary=>{}"
-      #puts(params.to_h)
-      formatted_params = {
-        "type": params[:type],
-        "geometry": params[:geometry].to_h,
-        "properties": params[:properties].to_h
-      }
-      # return formatted_params
+      params.permit!.except(:controller, :action).to_h
     end
     def is_geojson_valid(geojson)
       #validate geojson format and confirm that the type of object is a polygon (ie not a point)
