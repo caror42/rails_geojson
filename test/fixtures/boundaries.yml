@@ -17,7 +17,7 @@ one:
   maxx: 3
   miny: 1
   maxy: 2
-  coordinates: [[0,1],[0,3],[1,3],[1,2]]
+  coordinates: [[0,1],[0,2],[3,2],[3,1]]
 
 two:
   minx: 1.5
