@@ -1,7 +1,7 @@
 module InsidePolygon
-  #does a horizontal scan to determine if the point is inside, need to look into edge cases more
+  # does a horizontal scan to determine if the point is inside, need to look into edge cases more
   def self.point_in_poly(params = {})
-    #validate existence of neccesary params and assign
+    # validate existence of neccesary params and assign
     if params.has_key?(:point)
       point = params[:point]
     else
@@ -18,7 +18,7 @@ module InsidePolygon
     num_vertices = polygon.length
     x, y = point[0], point[1]
 
-    #check if point is entirely out of range and go no furthur....
+    # check if point is entirely out of range and go no furthur....
     if x < boundary.minx
       return false
     end
@@ -39,9 +39,9 @@ module InsidePolygon
     (1..num_vertices).each do |i|
       p2 = polygon[i % num_vertices]
 
-      if y > [p1[1], p2[1]].min
-        if y < [p1[1], p2[1]].max
-          if x < [p1[0], p2[0]].max
+      if y > [ p1[1], p2[1] ].min
+        if y < [ p1[1], p2[1] ].max
+          if x < [ p1[0], p2[0] ].max
             if (p2[1] - p1[1]) != 0
               x_intersection = (y - p1[1]) * (p2[0] - p1[0]) / (p2[1] - p1[1]) + p1[0]
               if p1[0] == p2[0] || x <= x_intersection
@@ -56,6 +56,6 @@ module InsidePolygon
 
       p1 = p2
     end
-    return inside
+    inside
   end
 end

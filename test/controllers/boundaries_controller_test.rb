@@ -26,10 +26,10 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should is inside" do
-    #validate values?
+    # validate values?
     params = {
-      "point": [1, 1.6],
-      "id": @boundary.id,
+      "point": [ 1, 1.6 ],
+      "id": @boundary.id
     }
     post (boundaries_url + "/inside"), params: params, as: :json
     assert_response :success

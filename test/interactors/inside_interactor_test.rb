@@ -20,18 +20,18 @@ class InsideInteractorTest < ActionDispatch::IntegrationTest
   setup do
     @boundary = boundaries(:one)
     @params = {
-      "point": [1, 1.5],
-      "id": @boundary.id,
+      "point": [ 1, 1.5 ],
+      "id": @boundary.id
     }
     @outside_params = {
-      "point": [5, 8],
-      "id": @boundary.id,
+      "point": [ 5, 8 ],
+      "id": @boundary.id
     }
     @id_param_only = {
-      "id": @boundary.id,
+      "id": @boundary.id
     }
     @point_param_only = {
-      "point": [1, 1.5],
+      "point": [ 1, 1.5 ]
     }
   end
 end

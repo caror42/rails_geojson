@@ -14,7 +14,7 @@
 class Boundary < ApplicationRecord
   def self.make(geojson)
     polygon = geojson[:geometry][:coordinates][0]
-    #find max x and min x
+    # find max x and min x
     minx = polygon.map(&:first).min
     maxx = polygon.map(&:first).max
     miny = polygon.map(&:last).min
@@ -26,6 +26,6 @@ class Boundary < ApplicationRecord
       maxy: maxy,
       coordinates: polygon,
     )
-    return staged_boundary
+    staged_boundary
   end
 end

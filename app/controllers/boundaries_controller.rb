@@ -24,13 +24,13 @@ class BoundariesController < ApplicationController
         render json: @boundary.errors, status: :unprocessable_entity
       end
     else
-      render json: {message: "invalid params"}, status: :unprocessable_entity
+      render json: { message: "invalid params" }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /boundaries/1
   def update
-    #works because of implementation -- but maybe should modify to be more specific
+    # works because of implementation -- but maybe should modify to be more specific
     if @boundary.update(geojson_params)
       render json: @boundary
     else
@@ -44,24 +44,28 @@ class BoundariesController < ApplicationController
   end
 
   def inside
-    #TODO: encase in try catch and pass errors through if desired
+    # TODO: encase in try catch and pass errors through if desired
     is_inside = InsidePolygon.point_in_poly(inside_params)
-    render json: {is_inside: is_inside}, status: :ok
+    render json: { is_inside: is_inside }, status: :ok
   end
 
   private
-    def set_boundary
-      @boundary = Boundary.find(params[:id])
-    end
-    def inside_params
-      params.permit(:id, point: []).except(:controller, :action)
-    end
-    # Only allow a list of trusted parameters through.
-    def geojson_params
-      params.permit!.except(:controller, :action).to_h
-    end
-    def is_geojson_valid(geojson)
-      #validate geojson format and confirm that the type of object is a polygon (ie not a point)
-      Geojsonlint.validate(geojson).valid? and geojson[:geometry][:type] == "Polygon"
-    end
+
+  def set_boundary
+    @boundary = Boundary.find(params[:id])
+  end
+
+  def inside_params
+    params.permit(:id, point: []).except(:controller, :action)
+  end
+
+  # Only allow a list of trusted parameters through.
+  def geojson_params
+    params.permit!.except(:controller, :action).to_h
+  end
+
+  def is_geojson_valid(geojson)
+    # validate geojson format and confirm that the type of object is a polygon (ie not a point)
+    Geojsonlint.validate(geojson).valid? and geojson[:geometry][:type] == "Polygon"
+  end
 end
