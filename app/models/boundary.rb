@@ -10,9 +10,15 @@
 #  coordinates :jsonb
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  name        :string
 #
 class Boundary < ApplicationRecord
+  before_save :generate_uuid
   def self.make(geojson)
+    name
+    if (geojson[:properties].has_key?(:zipCode))
+      name = geojson[:properties][:zipCode]
+    end
     polygon = geojson[:geometry][:coordinates][0]
     # find max x and min x
     minx = polygon.map(&:first).min
@@ -25,7 +31,14 @@ class Boundary < ApplicationRecord
       miny: miny,
       maxy: maxy,
       coordinates: polygon,
+      name: name,
     )
     staged_boundary
+  end
+
+  private
+
+  def generate_uuid
+    self.uuid = SecureRandom.uuid
   end
 end

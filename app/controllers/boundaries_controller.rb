@@ -4,7 +4,13 @@ class BoundariesController < ApplicationController
 
   # GET /boundaries
   def index
-    @boundaries = Boundary.all
+    if (params.has_key?(:name))
+      @boundaries = Boundary.find_by(name: params[:name])
+    elsif (params.has_key?(:uuid))
+      @boundaries = Boundary.find_by(uuid: params[:uuid])
+    else
+      @boundaries = Boundary.all
+    end
 
     render json: @boundaries
   end
