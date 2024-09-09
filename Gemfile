@@ -6,8 +6,8 @@ gem "rails", "~> 7.2.1"
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
-#geojson validator
-gem 'geojsonlint', '~> 0.1.3'
+# geojson validator
+gem "geojsonlint", "~> 0.1.3"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -42,5 +42,3 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 end
-
-
