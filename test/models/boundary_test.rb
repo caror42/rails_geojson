@@ -11,6 +11,8 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  name        :string
+#  uuid        :uuid
+#  is_public   :boolean          default(TRUE)
 #
 require "test_helper"
 
