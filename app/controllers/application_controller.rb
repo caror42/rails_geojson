@@ -2,11 +2,12 @@ class ApplicationController < ActionController::API
   before_action :authenticate
 
   def login
-    @current_user ||= User.find_by(token: params[:token])
-    #session[:token] = params[:token]
-    # if (session[:token])
-    #   @current_user = User.find_by(token: params[:token])
-    # end
+    if (session[:token])
+      @current_user = User.find_by(token: session[:token])
+    else
+      @current_user ||= User.find_by(token: params[:token])
+      session[:token] = params[:token]
+    end
   end
 
   private
