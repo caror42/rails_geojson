@@ -9,6 +9,8 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
+  has_many :user_boundary, dependent: :destroy
+  has_many :boundaries, through: :user_boundary
   before_save :generate_uuid
 
   private
