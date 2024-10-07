@@ -22,9 +22,13 @@ class BoundariesController < ApplicationController
 
   # POST /boundaries
   def create
+    #is it bad form to call a user_boundary thing here?
     if is_geojson_valid(geojson_params)
       @boundary = Boundary.make(geojson_params)
       if @boundary.save
+        # UserBoundary.create!(
+        #   .id
+        # )
         render json: @boundary, status: :created, location: @boundary
       else
         render json: @boundary.errors, status: :unprocessable_entity
