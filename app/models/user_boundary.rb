@@ -1,0 +1,2 @@
+class UserBoundary < ApplicationRecord
+end
