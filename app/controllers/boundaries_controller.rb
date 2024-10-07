@@ -25,6 +25,10 @@ class BoundariesController < ApplicationController
     if is_geojson_valid(geojson_params)
       @boundary = Boundary.make(geojson_params)
       if @boundary.save
+        UserBoundary.create!(
+          boundary_id: @boundary.id,
+          user_id: @current_user.id,
+        )
         render json: @boundary, status: :created, location: @boundary
       else
         render json: @boundary.errors, status: :unprocessable_entity
