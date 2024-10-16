@@ -7,6 +7,3 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-@root = User.new(name: "root", is_admin: true)
-@root.save
-puts(@root.token)
