@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :confirm_admin, only: %i[ index create update destroy ]
   before_action :set_user, only: %i[ show update destroy ]
   # GET /users
   def index
@@ -9,21 +10,20 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @user
+    if @current_user.is_admin || @current_user == @user
+      render json: @user
+    else
+      render json: @current_user, status: :unauthorized
+    end
   end
 
   # POST /users
   def create
-    #only admins can create users
-    if @current_user.is_admin
-      @user = User.new(user_params)
-      if @user.save
-        render json: @user, status: :created, location: @user
-      else
-        render json: @user.errors, status: :unprocessable_entity
-      end
+    @user = User.new(user_params)
+    if @user.save
+      render json: @user, status: :created, location: @user
     else
-      render json: @current_user, status: :unauthorized
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -38,7 +38,9 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    @user.destroy!
+    if @user == @current_user || @current_user.is_admin
+      @user.destroy!
+    end
   end
 
   private
@@ -46,6 +48,13 @@ class UsersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def confirm_admin
+    if !@current_user.is_admin
+      render json: @current_user, status: :unauthorized
+      puts("NOT ADMIN")
+    end
   end
 
   # Only allow a list of trusted parameters through.
