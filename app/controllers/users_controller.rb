@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :confirm_admin, only: %i[ index create update destroy ]
+  before_action :confirm_admin, only: %i[ index create update ]
   before_action :set_user, only: %i[ show update destroy ]
   # GET /users
   def index
@@ -38,8 +38,10 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    if @user == @current_user || @current_user.is_admin
+    if @current_user.is_admin || @current_user == @user
       @user.destroy!
+    else
+      render json: @current_user, status: :unauthorized
     end
   end
 
