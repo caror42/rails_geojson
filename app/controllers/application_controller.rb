@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
   private
 
   def login
-    @current_user ||= User.find_by(token: params[:token])
+    @current_user ||= User.find_by_token(params[:token])
   end
 
   def authenticate
