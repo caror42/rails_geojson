@@ -15,6 +15,8 @@
 #  is_public   :boolean          default(TRUE)
 #
 class Boundary < ApplicationRecord
+  has_many :user_boundary, dependent: :destroy
+  has_many :users, through: :user_boundary
   before_save :generate_uuid
   def self.make(geojson)
     name
