@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_07_204007) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_16_182238) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,5 +38,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_07_204007) do
     t.uuid "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_admin", default: false
   end
 end
