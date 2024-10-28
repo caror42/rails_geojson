@@ -55,7 +55,6 @@ class UsersController < ApplicationController
   def confirm_admin
     if !@current_user.is_admin
       render json: @current_user, status: :unauthorized
-      puts("NOT ADMIN")
     end
   end
 
