@@ -10,9 +10,10 @@
 #
 
 one:
-  name: MyString
-  token: 
+  name: Admin
+  token: 42
+  is_admin: true
 
 two:
-  name: MyString
-  token: 
+  name: NonAdmin
+  token: 27277
