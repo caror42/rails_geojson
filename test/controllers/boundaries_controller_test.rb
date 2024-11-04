@@ -17,8 +17,9 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
       post boundaries_url, params: parsed_boundary_json, as: :json
     end
     assert_response :created
-    @new_boundary = JSON.parse(@response.body)
-    assert_not_nil(UserBoundary.find_by_boundary_id(@new_boundary["id"]))
+    new_boundary = JSON.parse(@response.body)
+    new_user_boundary = UserBoundary.find_by_boundary_id(new_boundary["id"])
+    assert_not_nil(new_user_boundary)
   end
 
   test "should show boundary" do
