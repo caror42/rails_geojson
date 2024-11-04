@@ -16,8 +16,10 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Boundary.count") do
       post boundaries_url, params: parsed_boundary_json, as: :json
     end
-
     assert_response :created
+    new_boundary = JSON.parse(@response.body)
+    new_user_boundary = UserBoundary.find_by_boundary_id(new_boundary["id"])
+    assert_not_nil(new_user_boundary)
   end
 
   test "should show boundary" do
@@ -28,8 +30,8 @@ class BoundariesControllerTest < ActionDispatch::IntegrationTest
   test "should is inside" do
     # validate values?
     params = {
-      "point": [ 1, 1.6 ],
-      "id": @boundary.id
+      "point": [1, 1.6],
+      "id": @boundary.id,
     }
     post (boundaries_url + "/inside"), params: params, as: :json
     assert_response :success

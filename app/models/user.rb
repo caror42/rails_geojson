@@ -9,13 +9,15 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
+  #could make uuid a string
   has_many :user_boundary, dependent: :destroy
   has_many :boundaries, through: :user_boundary
-  before_save :generate_uuid
+  after_create :generate_uuid #after create? so it only is triggered once
 
   private
 
   def generate_uuid
     self.token = SecureRandom.uuid
+    self.save
   end
 end

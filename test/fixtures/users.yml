@@ -10,10 +10,11 @@
 #
 
 one:
+  id: 1
   name: Admin
-  token: 42
   is_admin: true
 
-two:
-  name: NonAdmin
-  token: 27277
+# two:
+#   name: NonAdmin
+#   token: bbbbbbbb-bbbb-bbbb-bbbbbbbbbbbb
+#   is_admin: false
