@@ -17,6 +17,7 @@ class BoundariesController < ApplicationController
       @boundaries = boundary_ids.map do |item|
         Boundary.find_by_id(item["boundary_id"])
       end
+      @boundaries.append(Boundary.where(:is_public => true))
     end
     render json: @boundaries
   end
@@ -30,6 +31,10 @@ class BoundariesController < ApplicationController
   def create
     if is_geojson_valid(geojson_params)
       @boundary = Boundary.make(geojson_params)
+      #make private
+      if (params.has_key?("is_public"))
+        @boundary.is_public = params["is_public"]
+      end
       if @boundary.save
         UserBoundary.create!(
           boundary_id: @boundary.id,
