@@ -4,14 +4,20 @@ class BoundariesController < ApplicationController
 
   # GET /boundaries
   def index
-    if (params.has_key?(:name))
-      @boundaries = Boundary.find_by(name: params[:name])
-    elsif (params.has_key?(:uuid))
-      @boundaries = Boundary.find_by(uuid: params[:uuid])
+    if @current_user.is_admin
+      if (params.has_key?(:name))
+        @boundaries = Boundary.find_by(name: params[:name])
+      elsif (params.has_key?(:uuid))
+        @boundaries = Boundary.find_by(uuid: params[:uuid])
+      else
+        @boundaries = Boundary.all
+      end
     else
-      @boundaries = Boundary.all
+      boundary_ids = UserBoundary.where(:user_id => @current_user.id)
+      @boundaries = boundary_ids.map do |item|
+        Boundary.find_by_id(item["boundary_id"])
+      end
     end
-
     render json: @boundaries
   end
 
