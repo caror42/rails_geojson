@@ -3,7 +3,7 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
-    @nonadmin_user = users(:two)
+    #@nonadmin_user = users(:two)
   end
 
   test "should get index" do
@@ -13,7 +13,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user" do
     assert_difference("User.count") do
-      post users_url, params: { name: @user.name, token: @user.token }, as: :json
+      post users_url, params: { name: @user.name }, as: :json
     end
 
     assert_response :created
@@ -25,7 +25,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user" do
-    patch user_url(@user), params: { name: @user.name, token: @user.token }, as: :json
+    patch user_url(@user), params: { name: @user.name }, as: :json
     assert_response :success
   end
 

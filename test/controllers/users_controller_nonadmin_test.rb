@@ -3,9 +3,9 @@ require "test_helper"
 class UsersControllerNonAdminTest < ActionDispatch::IntegrationTest
   #comment out :one in users.yml to run these tests
   #this posting details the problem https://github.com/rails/rails/issues/24566
+  #TODO: edit unit tests so names are more informative
   setup do
     @nonadmin_user = users(:two)
-    #ApplicationController.instance_variable_set(:@current_user, @nonadmin_user)
   end
   # test "should fail to get index" do
   #   get users_url, as: :json
