@@ -17,7 +17,9 @@ class BoundariesController < ApplicationController
       @boundaries = boundary_ids.map do |item|
         Boundary.find_by_id(item["boundary_id"])
       end
-      @boundaries.append(Boundary.where(:is_public => true))
+      public_boundaries = Boundary.where(:is_public => true)
+      @boundaries = @boundaries + public_boundaries
+      @boundaries = @boundaries.uniq
     end
     render json: @boundaries
   end
