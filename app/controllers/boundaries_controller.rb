@@ -4,14 +4,23 @@ class BoundariesController < ApplicationController
 
   # GET /boundaries
   def index
-    if (params.has_key?(:name))
-      @boundaries = Boundary.find_by(name: params[:name])
-    elsif (params.has_key?(:uuid))
-      @boundaries = Boundary.find_by(uuid: params[:uuid])
+    if @current_user.is_admin
+      if (params.has_key?(:name))
+        @boundaries = Boundary.find_by(name: params[:name])
+      elsif (params.has_key?(:uuid))
+        @boundaries = Boundary.find_by(uuid: params[:uuid])
+      else
+        @boundaries = Boundary.all
+      end
     else
-      @boundaries = Boundary.all
+      boundary_ids = UserBoundary.where(:user_id => @current_user.id)
+      @boundaries = boundary_ids.map do |item|
+        Boundary.find_by_id(item["boundary_id"])
+      end
+      public_boundaries = Boundary.where(:is_public => true)
+      @boundaries = @boundaries + public_boundaries
+      @boundaries = @boundaries.uniq
     end
-
     render json: @boundaries
   end
 
@@ -24,6 +33,10 @@ class BoundariesController < ApplicationController
   def create
     if is_geojson_valid(geojson_params)
       @boundary = Boundary.make(geojson_params)
+      #make private
+      if (params.has_key?("is_public"))
+        @boundary.is_public = params["is_public"]
+      end
       if @boundary.save
         UserBoundary.create!(
           boundary_id: @boundary.id,
