@@ -5,13 +5,11 @@ This API-Only application manages users and geojson boundaries.
  * Users:  
 Users are identified by their required token during HTTP calls.  
 Users can be an admin or a non-admin, with varying permissions.  
-  
 Admins CAN:
     - view all users and their information
     - create any user
     - update any user
-    - delete any user
-  
+    - delete any user  
 Non-Admins CAN:
     - view their own user
     - delete their own user
