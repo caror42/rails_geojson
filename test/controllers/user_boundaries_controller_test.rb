@@ -64,4 +64,19 @@ class UserBoundariesControllerTest < ActionDispatch::IntegrationTest
     list_boundary = JSON.parse(@response.body)
     assert (list_boundary.include?(new_boundary))
   end
+  test "non-admin should see public boundary" do
+    raw_boundary_json = file_fixture("smallpolygon.json").read
+    parsed_boundary_json = JSON.parse(raw_boundary_json)
+    #default is true, but hardcoding for perpetuity's sake
+    boundary_and_token = parsed_boundary_json.as_json.merge("is_public" => true, "token" => @new_admin_user["token"])
+    assert_difference("Boundary.count") do
+      post boundaries_url, params: boundary_and_token, as: :json
+    end
+    assert_response :created
+    new_boundary = JSON.parse(@response.body)
+    get boundaries_url, params: { "token" => @new_non_admin_user["token"] }
+    assert_response :success
+    list_boundary = JSON.parse(@response.body)
+    assert (list_boundary.include?(new_boundary))
+  end
 end
