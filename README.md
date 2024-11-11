@@ -16,13 +16,13 @@ Non-Admins CAN:
 * view their own user
 * delete their own user
 
-**Boundaries**  
+**Boundaries:**  
 Boundaries are valid [geojsons](https://geojson.org/). [create your own here](https://geojson.io/).  
 Boundaries can be public or private.  
 The inside_polygon interactor can be used to determine whether a point is inside a given boundary.
 * calculated via horizontal scan
 
-**User-boundary relationship**
+**User-boundary relationship:**  
 Users and boundaries are related through a third model, user_boundary, which pairs user ids with boundary ids based on the user token present when a boundary is created.  
 All users have access to boundaries they made and public boundaries.  
 Admin users have access to all boundaries.
