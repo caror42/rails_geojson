@@ -17,7 +17,8 @@
 class Boundary < ApplicationRecord
   has_many :user_boundary, dependent: :destroy
   has_many :users, through: :user_boundary
-  after_create :generate_uuid
+  #can't be after create because create isn't called for boundaries
+  before_save :generate_uuid
   def self.make(geojson)
     name
     if (geojson[:properties].has_key?(:zipCode))
