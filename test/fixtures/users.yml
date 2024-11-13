@@ -14,7 +14,3 @@ one:
   name: Admin
   is_admin: true
 
-# two:
-#   name: NonAdmin
-#   token: bbbbbbbb-bbbb-bbbb-bbbbbbbbbbbb
-#   is_admin: false
