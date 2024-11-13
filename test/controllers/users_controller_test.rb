@@ -3,7 +3,6 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
-    #@nonadmin_user = users(:two)
   end
 
   test "should get index" do
