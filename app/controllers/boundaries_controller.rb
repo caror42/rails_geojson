@@ -6,20 +6,27 @@ class BoundariesController < ApplicationController
   def index
     if @current_user.is_admin
       if (params.has_key?(:name))
-        @boundaries = Boundary.find_by(name: params[:name])
+        @boundaries = Boundary.where(:name => params[:name])
       elsif (params.has_key?(:uuid))
         @boundaries = Boundary.find_by(uuid: params[:uuid])
       else
         @boundaries = Boundary.all
       end
     else
-      boundary_ids = UserBoundary.where(:user_id => @current_user.id)
-      @boundaries = boundary_ids.map do |item|
-        Boundary.find_by_id(item["boundary_id"])
+      if (params.has_key?(:uuid))
+        @boundaries = Boundary.find_by(uuid: params[:uuid])
+      else
+        boundary_ids = UserBoundary.where(:user_id => @current_user.id)
+        @boundaries = boundary_ids.map do |item|
+          Boundary.find_by_id(item["boundary_id"])
+        end
+        public_boundaries = Boundary.where(:is_public => true)
+        @boundaries = @boundaries + public_boundaries
+        @boundaries = @boundaries.uniq
+        if (params.has_key?(:name))
+          @boundaries = @boundaries.select { |item| item["name"] == params[:name] }
+        end
       end
-      public_boundaries = Boundary.where(:is_public => true)
-      @boundaries = @boundaries + public_boundaries
-      @boundaries = @boundaries.uniq
     end
     render json: @boundaries
   end
@@ -36,6 +43,9 @@ class BoundariesController < ApplicationController
       #make private
       if (params.has_key?("is_public"))
         @boundary.is_public = params["is_public"]
+      end
+      if (params.has_key?("name"))
+        @boundary.name = params["name"]
       end
       if @boundary.save
         UserBoundary.create!(
