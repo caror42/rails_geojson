@@ -39,9 +39,9 @@ module InsidePolygon
     (1..num_vertices).each do |i|
       p2 = polygon[i % num_vertices]
 
-      if y > [ p1[1], p2[1] ].min
-        if y < [ p1[1], p2[1] ].max
-          if x < [ p1[0], p2[0] ].max
+      if y > [p1[1], p2[1]].min
+        if y < [p1[1], p2[1]].max
+          if x < [p1[0], p2[0]].max
             if (p2[1] - p1[1]) != 0
               x_intersection = (y - p1[1]) * (p2[0] - p1[0]) / (p2[1] - p1[1]) + p1[0]
               if p1[0] == p2[0] || x <= x_intersection
